@@ -1,0 +1,5 @@
+// Including all modules
+include 'tsa-gui'
+include 'tsa-web'
+
+rootProject.name = 'talent-survey-app'
