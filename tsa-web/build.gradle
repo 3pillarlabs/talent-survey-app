@@ -1,7 +1,7 @@
 // Apply the java plugin to add support for Java
 apply plugin: 'application'
 
-//mainClassName = 'com.tpg.survey.web.main.Application'
+mainClassName = 'com.tpg.survey.web.main.Application'
 
 // In this section you declare the dependencies for your production and test code
 dependencies {

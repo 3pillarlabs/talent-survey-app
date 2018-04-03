@@ -1,4 +1,4 @@
-package com.tpg.quality.web.main;
+package com.tpg.survey.web.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

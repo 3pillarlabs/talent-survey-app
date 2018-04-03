@@ -1,4 +1,4 @@
-package com.tpg.quality.web.controller;
+package com.tpg.survey.web.controller;
 
 import java.util.Map;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class WebSampleController {
+public class TalentSurveyController {
 	// inject via application.properties
 	@Value("${welcome.message:test}")
 	private String message = "Hello World";
