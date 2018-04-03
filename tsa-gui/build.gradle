@@ -1,0 +1,12 @@
+// Apply the java plugin to add support for Java
+apply plugin: 'application'
+
+mainClassName = 'com.tpg.survey.gui.main.Application'
+
+// In this section you declare the dependencies for your production and test code
+dependencies {
+    // Common Code Dependency    
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.0.0.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.0.0.RELEASE'
+    compile group: 'org.webjars', name: 'bootstrap', version: '4.0.0'
+}
