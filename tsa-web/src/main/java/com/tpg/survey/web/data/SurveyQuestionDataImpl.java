@@ -21,10 +21,18 @@ import org.springframework.stereotype.Repository;
 
 import com.tpg.survey.web.enums.ElementType;
 import com.tpg.survey.web.pojos.Element;
+import com.tpg.survey.web.pojos.SurveyResponse;
 
 @Repository
-public class RetrieveQuestionsData {
+public class SurveyQuestionDataImpl implements SurveyQuestionData{
 	
+	private static Map<String,String> idQuestionMap = new HashMap<>();
+	
+	public static Map<String, String> getIdQuestionMap() {
+		return idQuestionMap;
+	}
+
+	@Override
 	public Map<String, List<Element>> getQuestions (String fileName){
 		
 		Workbook workbook = null;
@@ -93,6 +101,7 @@ public class RetrieveQuestionsData {
 							}
 						}
 					}
+					addToQuestionMap(element);
 					if(questionnaire.containsKey(currentSection)){
 						List<Element> alreadyPresentElements = questionnaire.get(currentSection);
 						alreadyPresentElements.add(element);
@@ -121,6 +130,20 @@ public class RetrieveQuestionsData {
 		}
 
     return questionnaire;
+		
+	}
+
+	private void addToQuestionMap(Element element) {
+		if(element!=null && element.getType()!=null && !element.getType().equals(ElementType.HTML)){
+			if(!idQuestionMap.containsKey(element.getElementId()))
+				idQuestionMap.put(element.getElementId(), element.getElement());
+		}
+		
+	}
+
+	@Override
+	public void save(SurveyResponse response) {
+		// TODO Auto-generated method stub
 		
 	}
 	
