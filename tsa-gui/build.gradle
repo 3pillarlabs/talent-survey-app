@@ -23,7 +23,7 @@ task buildNpm(type: NpmTask) {
   args = ['run', 'build']
 }
 
-build.dependsOn(npm_install)
+buildNpm.dependsOn(npm_install)
 jar {
     from('tsa-gui/dist') {
         //Public is a default supported Spring Boot resources directory.
