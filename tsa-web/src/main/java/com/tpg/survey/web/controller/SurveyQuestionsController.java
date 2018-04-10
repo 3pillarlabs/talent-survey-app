@@ -26,4 +26,10 @@ public class SurveyQuestionsController {
 		Map<String, List<Element>> allQuestions = retrieveQuestionData.getQuestions(file);
 		return allQuestions;
 	}
+	
+	@RequestMapping (value = "/saveSurvey", method = RequestMethod.POST)
+	public Map<String, List<Element>> saveSurvey (){
+		Map<String, List<Element>> allQuestions = retrieveQuestionData.getQuestions(file);
+		return allQuestions;
+	}
 }

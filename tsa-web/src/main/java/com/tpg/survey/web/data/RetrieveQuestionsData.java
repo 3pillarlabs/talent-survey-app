@@ -17,12 +17,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import com.tpg.survey.web.enums.ElementType;
 import com.tpg.survey.web.pojos.Element;
 
-@Service
+@Repository
 public class RetrieveQuestionsData {
 	
 	public Map<String, List<Element>> getQuestions (String fileName){
@@ -61,13 +61,21 @@ public class RetrieveQuestionsData {
 							} else if (currentCell.getColumnIndex() == 1) { // title
 								element.setTitle(currentCell.getStringCellValue());
 
-							} else if (currentCell.getColumnIndex() == 2) { // element
+							} else if (currentCell.getColumnIndex() == 2) { // elementId
+								if (currentCell.getCellTypeEnum() == CellType.STRING) {
+									element.setElementId(currentCell.getStringCellValue());
+			                    } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
+			                    	element.setElementId(String.valueOf(currentCell.getNumericCellValue()));
+			                    }
+
+							}
+							else if (currentCell.getColumnIndex() == 3) { // element
 								element.setElement(currentCell.getStringCellValue());
 
-							} else if (currentCell.getColumnIndex() == 3) { // type
+							} else if (currentCell.getColumnIndex() == 4) { // type
 								element.setType(ElementType.getValueOf(currentCell.getStringCellValue()));
 
-							} else if (currentCell.getColumnIndex() == 4) { // options
+							} else if (currentCell.getColumnIndex() == 5) { // options
 								if (currentCell.getStringCellValue() != null
 										&& !currentCell.getStringCellValue().trim().isEmpty()) {
 									String[] options = currentCell.getStringCellValue().split(",");
@@ -76,7 +84,7 @@ public class RetrieveQuestionsData {
 										element.setOptions(opList);
 									}
 								}
-							} else if (currentCell.getColumnIndex() == 5) { // isMandatory
+							} else if (currentCell.getColumnIndex() == 6) { // isMandatory
 								if(currentCell.getStringCellValue().equalsIgnoreCase("Yes")){
 									element.setMandatory(true);
 								}else if(currentCell.getStringCellValue().equalsIgnoreCase("No")){
@@ -115,5 +123,8 @@ public class RetrieveQuestionsData {
     return questionnaire;
 		
 	}
+	
+	
+	
 
 }

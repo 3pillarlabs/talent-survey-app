@@ -6,11 +6,18 @@ import com.tpg.survey.web.enums.ElementType;
 
 public class Element {
 	
+	private String elementId;
 	private String title;
 	private String element;
 	private ElementType type;
 	private List<String> options; // in case of radio button type
 	private boolean isMandatory;
+	public String getElementId() {
+		return elementId;
+	}
+	public void setElementId(String elementId) {
+		this.elementId = elementId;
+	}
 	public String getTitle() {
 		return title;
 	}
@@ -43,7 +50,7 @@ public class Element {
 	}
 	@Override
 	public String toString() {
-		return "RowElement [ title=" + title + ", element=" + element + ", type=" + type
+		return "Element [elementId=" + elementId + ", title=" + title + ", element=" + element + ", type=" + type
 				+ ", options=" + options + ", isMandatory=" + isMandatory + "]";
 	}
 	

@@ -1,12 +1,13 @@
 // Apply the java plugin to add support for Java
 
-apply plugin: 'application'
-
-
-mainClassName = 'com.tpg.survey.gui.main.Application'
 plugins {
   id "com.moowork.node" version "0.12"
 }
+apply plugin: 'application'
+
+
+
+mainClassName = 'com.tpg.survey.gui.main.Application'
 
 version '0.0.1'
 
@@ -18,8 +19,25 @@ node {
   nodeModulesDir = file("${project.projectDir}")
 }
 
-task build(type: NpmTask) {
+task buildNpm(type: NpmTask) {
   args = ['run', 'build']
 }
 
 build.dependsOn(npm_install)
+jar {
+    from('tsa-gui/dist') {
+        //Public is a default supported Spring Boot resources directory.
+        into 'public'
+    }
+}
+
+//frontend:build will be run before the processResources
+processResources.dependsOn(buildNpm)
+
+// In this section you declare the dependencies for your production and test code
+dependencies {
+    // Common Code Dependency    
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.0.0.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.0.0.RELEASE'
+    compile group: 'org.webjars', name: 'bootstrap', version: '4.0.0'
+}
