@@ -3,30 +3,37 @@ package com.tpg.survey.web.data;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Repository;
 
 import com.tpg.survey.web.enums.ElementType;
 import com.tpg.survey.web.pojos.Element;
-import com.tpg.survey.web.pojos.SurveyResponse;
 
 @Repository
 public class SurveyQuestionDataImpl implements SurveyQuestionData{
 	
 	private static Map<String,String> idQuestionMap = new HashMap<>();
+	private static AtomicInteger currentRowIndex = new AtomicInteger(1);
 	
 	public static Map<String, String> getIdQuestionMap() {
 		return idQuestionMap;
@@ -73,7 +80,7 @@ public class SurveyQuestionDataImpl implements SurveyQuestionData{
 								if (currentCell.getCellTypeEnum() == CellType.STRING) {
 									element.setElementId(currentCell.getStringCellValue());
 			                    } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
-			                    	element.setElementId(String.valueOf(currentCell.getNumericCellValue()));
+			                    	element.setElementId(String.valueOf((int)(currentCell.getNumericCellValue())));
 			                    }
 
 							}
@@ -142,8 +149,78 @@ public class SurveyQuestionDataImpl implements SurveyQuestionData{
 	}
 
 	@Override
-	public void save(SurveyResponse response) {
-		// TODO Auto-generated method stub
+	public void save(Map<String, String> responseMap, String fileName) {
+		XSSFWorkbook workbook = null;
+		File outputFile = new File(fileName);
+		if (!outputFile.exists()) {
+			workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet("Sample sheet");
+			// Create a new row in current sheet
+			/*
+			 * Row header = sheet.createRow(0); //Create a new cell in current
+			 * row Cell cell = header.createCell(0); //Set value to new value
+			 * cell.setCellValue("Blahblah");
+			 */
+
+			Row header = sheet.createRow(0);
+			header.createCell(0).setCellValue("TimeStamp");
+			int headerIndex = 1;
+			for (Entry<String, String> entry : idQuestionMap.entrySet()) {
+				header.createCell(headerIndex).setCellValue(entry.getValue());
+				headerIndex++;
+			}
+
+		}else {
+			try {
+				workbook = new XSSFWorkbook(outputFile);
+			} catch (InvalidFormatException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			XSSFSheet sheet = workbook.getSheet("Sample sheet");
+			Row row = sheet.createRow(currentRowIndex.intValue());
+			SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			row.createCell(0).setCellValue(dateFormat.format(new Date()));
+			int columnIndex = 0;
+			for (Entry<String, String> entry : responseMap.entrySet()) {
+				String question = null;
+				if (idQuestionMap!=null && idQuestionMap.containsKey(entry.getKey())){
+					question = idQuestionMap.get(entry.getKey());
+				}
+				if(question!=null){
+					Row header = sheet.getRow(0);
+					Iterator<Cell> headerIterator = header.iterator();
+					while (headerIterator.hasNext()) {
+						Cell headerCell = headerIterator.next();
+						if (headerCell != null) {
+							if (headerCell.getCellTypeEnum() == CellType.STRING) {
+								if(headerCell.getStringCellValue().trim().equalsIgnoreCase(question)){
+									columnIndex = headerCell.getColumnIndex();
+								}
+							} else if (headerCell.getCellTypeEnum() == CellType.NUMERIC) {
+								if(String.valueOf(headerCell.getNumericCellValue()).trim().equalsIgnoreCase(question)){
+									columnIndex = headerCell.getColumnIndex();
+								}
+							}
+						}
+					}
+					row.createCell(columnIndex).setCellValue(entry.getValue());
+				}
+			}
+			currentRowIndex.incrementAndGet();
+			
+		}
+		try {
+			FileOutputStream out =	new FileOutputStream(outputFile, true);
+			workbook.write(out);
+			out.close();
+			System.out.println("Excel written successfully..");
+			workbook.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

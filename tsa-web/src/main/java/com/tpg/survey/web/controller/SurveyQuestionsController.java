@@ -14,29 +14,31 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tpg.survey.web.data.SurveyQuestionData;
 import com.tpg.survey.web.data.SurveyQuestionDataImpl;
 import com.tpg.survey.web.pojos.Element;
-import com.tpg.survey.web.pojos.SurveyResponse;
 
 @RestController
 public class SurveyQuestionsController {
 
 	@Value("${talent.survey.questions.file.name}") // Desktop location, needs to be changed to remote location
-	private String file;
+	private String questionarrieFile;
+	
+	@Value("${talent.survey.response.file.name}") // Desktop location, needs to be changed to remote location
+	private String responseFile;
 	
 	@Autowired
 	private SurveyQuestionData surveyQuestionData;
 	
 	@RequestMapping (value = "/getQuestions", method = RequestMethod.GET)
 	public Map<String, List<Element>> retrieveSurveyQuestions (){
-		Map<String, List<Element>> allQuestions = surveyQuestionData.getQuestions(file);
+		Map<String, List<Element>> allQuestions = surveyQuestionData.getQuestions(questionarrieFile);
 		System.out.println(SurveyQuestionDataImpl.getIdQuestionMap());
 		return allQuestions;
 	}
 	
 	@RequestMapping (value = "/persistSurveyResponse", method = RequestMethod.POST)
-	public ResponseEntity<String> saveSurvey (@RequestBody SurveyResponse response){
+	public ResponseEntity<String> saveSurvey (@RequestBody Map<String, String> response){
 		try {
 			// add validation of response
-			surveyQuestionData.save(response);
+			surveyQuestionData.save(response, responseFile);
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();

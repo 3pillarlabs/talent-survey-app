@@ -6,12 +6,11 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.tpg.survey.web.pojos.Element;
-import com.tpg.survey.web.pojos.SurveyResponse;
 
 @Repository
 public interface SurveyQuestionData {
 	
 	public Map<String, List<Element>> getQuestions (String fileName);
-	public void save(SurveyResponse response);
+	public void save(Map<String, String> response, String fileName);
 
 }
