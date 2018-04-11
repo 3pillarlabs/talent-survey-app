@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -33,7 +32,6 @@ import com.tpg.survey.web.pojos.Element;
 public class SurveyQuestionDataImpl implements SurveyQuestionData{
 	
 	private static Map<String,String> idQuestionMap = new HashMap<>();
-	private static AtomicInteger currentRowIndex = new AtomicInteger(1);
 	
 	public static Map<String, String> getIdQuestionMap() {
 		return idQuestionMap;
@@ -71,7 +69,7 @@ public class SurveyQuestionDataImpl implements SurveyQuestionData{
 								if (currentCell.getCellTypeEnum() == CellType.STRING) {
 									currentSection = currentCell.getStringCellValue();
 			                    } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
-			                    	currentSection = String.valueOf(currentCell.getNumericCellValue());
+			                    	currentSection = String.valueOf((int)(currentCell.getNumericCellValue()));
 			                    }
 							} else if (currentCell.getColumnIndex() == 1) { // title
 								element.setTitle(currentCell.getStringCellValue());
@@ -136,6 +134,12 @@ public class SurveyQuestionDataImpl implements SurveyQuestionData{
 			}
 		}
 
+//		Set<List<Element>> result = new HashSet<>();
+//		Map<String, List<Element>> resultMap = new HashMap<>();
+//		for (Entry<String, List<Element>> entry : questionnaire.entrySet()) {
+//			result.add(entry.getValue());
+//			entry.getValue();
+//		}
     return questionnaire;
 		
 	}
@@ -155,13 +159,6 @@ public class SurveyQuestionDataImpl implements SurveyQuestionData{
 		if (!outputFile.exists()) {
 			workbook = new XSSFWorkbook();
 			XSSFSheet sheet = workbook.createSheet("Sample sheet");
-			// Create a new row in current sheet
-			/*
-			 * Row header = sheet.createRow(0); //Create a new cell in current
-			 * row Cell cell = header.createCell(0); //Set value to new value
-			 * cell.setCellValue("Blahblah");
-			 */
-
 			Row header = sheet.createRow(0);
 			header.createCell(0).setCellValue("TimeStamp");
 			int headerIndex = 1;
@@ -178,7 +175,8 @@ public class SurveyQuestionDataImpl implements SurveyQuestionData{
 				e.printStackTrace();
 			}
 			XSSFSheet sheet = workbook.getSheet("Sample sheet");
-			Row row = sheet.createRow(currentRowIndex.intValue());
+			int currentRowIndex = sheet.getLastRowNum();
+			Row row = sheet.createRow(currentRowIndex+1);
 			SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			row.createCell(0).setCellValue(dateFormat.format(new Date()));
 			int columnIndex = 0;
@@ -207,8 +205,6 @@ public class SurveyQuestionDataImpl implements SurveyQuestionData{
 					row.createCell(columnIndex).setCellValue(entry.getValue());
 				}
 			}
-			currentRowIndex.incrementAndGet();
-			
 		}
 		try {
 			FileOutputStream out =	new FileOutputStream(outputFile, true);
