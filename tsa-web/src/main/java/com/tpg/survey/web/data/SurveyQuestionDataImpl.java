@@ -166,6 +166,36 @@ public class SurveyQuestionDataImpl implements SurveyQuestionData{
 				header.createCell(headerIndex).setCellValue(entry.getValue());
 				headerIndex++;
 			}
+			
+			Row row = sheet.createRow(1);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			row.createCell(0).setCellValue(dateFormat.format(new Date()));
+			int columnIndex = 0;
+			for (Entry<String, String> entry : responseMap.entrySet()) {
+				String question = null;
+				if (idQuestionMap!=null && idQuestionMap.containsKey(entry.getKey())){
+					question = idQuestionMap.get(entry.getKey());
+				}
+				if(question!=null){
+					Row headerRow = sheet.getRow(0);
+					Iterator<Cell> headerIterator = headerRow.iterator();
+					while (headerIterator.hasNext()) {
+						Cell headerCell = headerIterator.next();
+						if (headerCell != null) {
+							if (headerCell.getCellTypeEnum() == CellType.STRING) {
+								if(headerCell.getStringCellValue().trim().equalsIgnoreCase(question)){
+									columnIndex = headerCell.getColumnIndex();
+								}
+							} else if (headerCell.getCellTypeEnum() == CellType.NUMERIC) {
+								if(String.valueOf(headerCell.getNumericCellValue()).trim().equalsIgnoreCase(question)){
+									columnIndex = headerCell.getColumnIndex();
+								}
+							}
+						}
+					}
+					row.createCell(columnIndex).setCellValue(entry.getValue());
+				}
+			}
 
 		}else {
 			try {
