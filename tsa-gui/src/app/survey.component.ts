@@ -1,6 +1,8 @@
 import { Component, Input } from "@angular/core";
 import * as Survey from "survey-angular";
 import * as widgets from "surveyjs-widgets";
+import { SurveyDataServiceService } from "./services/survey-data-service.service";
+
 
 import "inputmask/dist/inputmask/phone-codes/phone.js";
 
@@ -50,15 +52,16 @@ export class SurveyComponent {
       header.appendChild(span);
       header.appendChild(btn);
     });
-    surveyModel.onComplete.add(function (result) {
-      this.surveyComplete(result);
-    });
-    Survey.StylesManager.applyTheme("default");
-    Survey.SurveyNG.render("surveyElement", { model: surveyModel });
+   surveyModel.onComplete.add((result) => this.surveyComplete(result));
+
+   Survey.StylesManager.applyTheme("default");
+   Survey.SurveyNG.render("surveyElement", { model: surveyModel });
   }
 
   surveyComplete (result) {
+    console.log("Got it!")
     console.log(JSON.stringify(result.data))
+
   }
 
   ngOnInit() {}

@@ -6,6 +6,8 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { SurveyComponent } from './survey.component';
 
+import { SurveyDataServiceService } from "./services/survey-data-service.service";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +19,7 @@ import { SurveyComponent } from './survey.component';
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [SurveyDataServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

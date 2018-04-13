@@ -4,5 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  // json_url: "http://www.json-generator.com/api/json/get/cdmrWwcwJe?indent=2",
+  json_url: "http://172.20.10.227:8090/getQuestions",
+  save_response_url: "http://172.20.10.227:8090/persistSurveyResponse"
 };
