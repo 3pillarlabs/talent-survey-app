@@ -32,7 +32,12 @@ export class AppComponent {
         {expectedKey: 'choices', apiKey: 'options'}, 
         {expectedKey: 'title', apiKey: 'element'}
       ]},
-      html: {type: 'html', keys: [{expectedKey: 'html', apiKey: 'element'}]}
+      html: {type: 'html', keys: [{expectedKey: 'html', apiKey: 'element'}]},
+      rating: {type: 'rating', keys: [
+        {expectedKey: 'rateMin', apiKey: 'minValue'}, 
+        {expectedKey: 'rateMax', apiKey: 'maxValue'},
+        {expectedKey: 'title', apiKey: 'element'}
+      ]}
     }
 
     let keysBefore : Array<string> = Object.keys(surveyData);
