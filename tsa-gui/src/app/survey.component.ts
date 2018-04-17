@@ -27,9 +27,13 @@ Survey.JsonObject.metaData.addProperty("page", "popupdescription:text");
 
 @Component({
   selector: "survey",
+  providers: [SurveyDataServiceService],
   template: `<div class="survey-container contentcontainer codecontainer"><div id="surveyElement"></div></div>`
 })
 export class SurveyComponent {
+  constructor (private surveyDataService: SurveyDataServiceService) { }
+  // surveyDataService : SurveyDataServiceService;
+
   @Input()
   set json(value: object) {
     const surveyModel = new Survey.Model(value);
@@ -61,7 +65,8 @@ export class SurveyComponent {
   surveyComplete (result) {
     console.log("Got it!")
     console.log(JSON.stringify(result.data))
-
+    this.surveyDataService.persistSurveyReponse(result.data)
+      .subscribe(data => {console.log("Successfully posted survey to the API.")}, Error => console.log(Error))
   }
 
   ngOnInit() {}

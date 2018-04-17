@@ -18,6 +18,8 @@ export class SurveyDataServiceService {
 		console.log("I will post this ->");
 		console.log(surveyResponse);
 		console.log("Here -> "+environment.save_response_url);
+		return this.http.post(environment.save_response_url, surveyResponse)
+			.map((response) => {console.log(response.json())})
 	}
 
 }
