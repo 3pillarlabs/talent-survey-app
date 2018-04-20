@@ -24,6 +24,7 @@ task buildNpm(type: NpmTask) {
 }
 
 buildNpm.dependsOn(npm_install)
+
 jar {
     from('tsa-gui/dist') {
         //Public is a default supported Spring Boot resources directory.
@@ -33,6 +34,20 @@ jar {
 
 //frontend:build will be run before the processResources
 processResources.dependsOn(buildNpm)
+
+task copyHtml(type: Copy) {
+    from "${project.projectDir}/dist/index.html"
+    into "${project.projectDir}/src/main/resources/templates/"
+}
+build.dependsOn(copyHtml)
+
+task copyStaticResources(type: Copy) {
+    from ("${project.projectDir}/dist"){
+    	exclude "index.html"
+    }
+    into "${project.projectDir}/src/main/resources/static/"
+}
+build.dependsOn(copyStaticResources)
 
 // In this section you declare the dependencies for your production and test code
 dependencies {

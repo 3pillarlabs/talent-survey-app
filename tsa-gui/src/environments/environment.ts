@@ -6,6 +6,6 @@
 export const environment = {
   production: false,
   // json_url: "http://www.json-generator.com/api/json/get/cdmrWwcwJe?indent=2",
-  json_url: "http://172.20.11.18:8090/getQuestions",
-  save_response_url: "http://172.20.11.18:8090/persistSurveyResponse"
+  json_url: "http://localhost:8090/getQuestions",
+  save_response_url: "http://localhost:8090/persistSurveyResponse"
 };
