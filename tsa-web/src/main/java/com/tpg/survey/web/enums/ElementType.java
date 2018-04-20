@@ -5,7 +5,8 @@ public enum ElementType {
 	TEXT ("Text"), // any kind of text answer
 	RADIOGROUP ("RadioGroup"), // any kind of radio button click answer
 	HTML ("Html"), // any kind of line or para or etc, which is actually not a quedtion but a kind of info
-	BULLET ("Bullet");
+	BULLET ("Bullet"),
+	RATING ("Rating");
 	
 	private String type;
 	
@@ -30,6 +31,8 @@ public enum ElementType {
 			return ElementType.HTML;
 		if(stringCellValue.equalsIgnoreCase("Bullet"))
 			return ElementType.BULLET;
+		if(stringCellValue.equalsIgnoreCase("Rating"))
+			return ElementType.RATING;
 		return null;
 	}
 	

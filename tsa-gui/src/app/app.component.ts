@@ -9,7 +9,7 @@ import { SurveyDataServiceService } from "./services/survey-data-service.service
 export class AppComponent {
   surveyData : any;
 
-  title = "Bi Annual Talent Engagement Survey";
+  title = "Talent Engagement Survey";
   json = this.surveyData;
 
   constructor(surveryDataService: SurveyDataServiceService) {

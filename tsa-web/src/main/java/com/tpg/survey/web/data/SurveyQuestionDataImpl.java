@@ -103,6 +103,18 @@ public class SurveyQuestionDataImpl implements SurveyQuestionData{
 								}else if(currentCell.getStringCellValue().equalsIgnoreCase("No")){
 									element.setMandatory(false);
 								}
+							} else if (currentCell.getColumnIndex() == 7) { // minValue
+								if (currentCell.getCellTypeEnum() == CellType.STRING) {
+									element.setMinValue(currentCell.getStringCellValue());
+			                    } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
+			                    	element.setMinValue(String.valueOf((int)(currentCell.getNumericCellValue())));
+			                    }
+							} else if (currentCell.getColumnIndex() == 8) { // maxValue
+								if (currentCell.getCellTypeEnum() == CellType.STRING) {
+									element.setMaxValue(currentCell.getStringCellValue());
+			                    } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
+			                    	element.setMaxValue(String.valueOf((int)(currentCell.getNumericCellValue())));
+			                    }
 							}
 						}
 					}

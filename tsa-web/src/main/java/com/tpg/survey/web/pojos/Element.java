@@ -12,6 +12,21 @@ public class Element {
 	private ElementType type;
 	private List<String> options; // in case of radio button type
 	private boolean isMandatory;
+	private String minValue;
+	private String maxValue;
+	
+	public String getMinValue() {
+		return minValue;
+	}
+	public void setMinValue(String minValue) {
+		this.minValue = minValue;
+	}
+	public String getMaxValue() {
+		return maxValue;
+	}
+	public void setMaxValue(String maxValue) {
+		this.maxValue = maxValue;
+	}
 	public String getElementId() {
 		return elementId;
 	}
@@ -51,7 +66,8 @@ public class Element {
 	@Override
 	public String toString() {
 		return "Element [elementId=" + elementId + ", title=" + title + ", element=" + element + ", type=" + type
-				+ ", options=" + options + ", isMandatory=" + isMandatory + "]";
+				+ ", options=" + options + ", isMandatory=" + isMandatory + ", minValue=" + minValue + ", maxValue="
+				+ maxValue + "]";
 	}
 	
 	
