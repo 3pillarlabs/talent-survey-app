@@ -5,8 +5,14 @@ mainClassName = 'com.tpg.survey.web.main.Application'
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
-    // Common Code Dependency    
+    // Common Code Dependency
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.0.0.RELEASE'    
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.0.0.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.0.0.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.0.0.RELEASE'
     compile group: 'org.webjars', name: 'bootstrap', version: '4.0.0'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.16.Final'
+    compile group: 'org.springframework', name: 'spring-tx', version: '5.0.4.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '5.0.4.RELEASE'
+    compile group: 'org.springframework', name: 'spring-orm', version: '5.0.4.RELEASE'
 }
