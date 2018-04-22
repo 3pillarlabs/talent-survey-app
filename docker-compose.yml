@@ -1,0 +1,18 @@
+version: "3.3"
+
+services:
+
+  database:
+   image: mysql:latest
+   container_name: survey-db
+   command: mysqld --user=root --verbose
+   volumes:
+    - ./tsa-db-scripts/:/docker-entrypoint-initdb.d
+   ports:
+    - "3306:3306"
+   environment:
+     MYSQL_DATABASE: "survey_database"
+     MYSQL_USER: "survey"
+     MYSQL_PASSWORD: "survey"
+     MYSQL_ROOT_PASSWORD: "root"
+     MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
