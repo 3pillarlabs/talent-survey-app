@@ -1,0 +1,25 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
+import { AppComponent } from './app.component';
+import { SurveyComponent } from './survey.component';
+
+import { SurveyDataServiceService } from "./services/survey-data-service.service";
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    SurveyComponent,
+  
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule
+  ],
+  providers: [SurveyDataServiceService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
