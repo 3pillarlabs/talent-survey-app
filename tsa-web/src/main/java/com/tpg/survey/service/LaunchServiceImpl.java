@@ -8,7 +8,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.tpg.survey.domain.EmailAddress;
@@ -33,29 +32,28 @@ public class LaunchServiceImpl implements LaunchService {
 	@Inject
 	private SurveyRepository surveyRepository;
 	
-	// Launch survey in a separate thread
-	@Async
 	@Transactional
 	@Override
 	public void initiateSurvey(Survey survey) {
 		try {
-			// save survey dates
-			Survey persistedSurvey = surveyRepository.save(survey);
-			
 			// collect email addresses
 			List<EmailAddress> emails = mailService.getEmployeeEmails();
 			
 			// generate and save links
-			List<Link> links = linkService.createAndSaveLinks(persistedSurvey, emails);
+			List<Link> links = linkService.createAndSaveLinks(survey, emails);
 			
 			// Email survey links to employees
 			mailService.sendEmails(links);
 			
+			// Mark the survey launched
+			survey.setLaunched(Boolean.TRUE);
+			surveyRepository.save(survey);
+
 		} catch (LinkGenerationException lge) {
 			lge.printStackTrace();
 		} finally {
-			// Email administrators about survey launch
-			mailService.sendEmail();
+			// Send notification to administrators about survey launch
+			mailService.sendNotification();
 		}
 	}
 	

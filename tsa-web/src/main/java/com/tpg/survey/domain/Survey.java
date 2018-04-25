@@ -40,6 +40,9 @@ public class Survey extends BaseDomain {
 	@Column(name = "is_active")
 	private boolean isActive = Boolean.TRUE;
 	
+	@Column(name = "is_launched")
+	private boolean isLaunched = Boolean.FALSE;
+	
 	public Date getSurveyStartDate() {
 		return surveyStartDate;
 	}
@@ -70,6 +73,14 @@ public class Survey extends BaseDomain {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public boolean isLaunched() {
+		return isLaunched;
+	}
+
+	public void setLaunched(boolean isLaunched) {
+		this.isLaunched = isLaunched;
 	}
 
 }
