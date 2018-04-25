@@ -3,7 +3,7 @@ version: "3.3"
 services:
 
   database:
-   image: mysql:latest
+   image: mysql:5.7.22
    container_name: survey-db
    command: mysqld --user=root --verbose
    volumes:
@@ -11,8 +11,8 @@ services:
    ports:
     - "3306:3306"
    environment:
-     MYSQL_DATABASE: "survey_database"
-     MYSQL_USER: "survey"
-     MYSQL_PASSWORD: "survey"
-     MYSQL_ROOT_PASSWORD: "root"
-     MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    MYSQL_DATABASE: "survey_database"
+    MYSQL_USER: "survey"
+    MYSQL_PASSWORD: "survey"
+    MYSQL_ROOT_PASSWORD: "root"
+    MYSQL_ALLOW_EMPTY_PASSWORD: "yes"

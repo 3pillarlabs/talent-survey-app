@@ -23,4 +23,14 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-jdbc', version: '5.0.4.RELEASE'
     compile group: 'org.springframework', name: 'spring-orm', version: '5.0.4.RELEASE'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
-    }
+}
+
+jar {
+	manifest { 
+    	attributes "Main-Class": "$mainClassName"
+	}  
+	
+	from {
+	   configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+}

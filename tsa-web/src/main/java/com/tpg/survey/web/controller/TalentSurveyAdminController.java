@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tpg.survey.domain.Survey;
-import com.tpg.survey.service.LaunchService;
+import com.tpg.survey.exception.SurveyAlreadyRunningException;
+import com.tpg.survey.service.SurveyService;
 
 /**
  * @author amit.bharti
@@ -22,17 +23,29 @@ import com.tpg.survey.service.LaunchService;
 @RequestMapping("/admin")
 @Controller
 public class TalentSurveyAdminController {
-	
+
 	@Inject
-	private LaunchService launchService;
-	
+	private SurveyService surveyService;
+
 	// Launching Survey
 	@PostMapping("/launchSurvey")
 	public String launchSurvey(@ModelAttribute Survey survey) {
-		launchService.initiateSurvey(survey);
-		return "surveyInitiated";
+		String viewName = "surveyInitiated";
+
+		try {
+			Survey persistedSurvey = surveyService.save(survey);
+
+			if (persistedSurvey.getSurveyId() > 0) {
+				// put logic to return success
+			}
+
+		} catch (SurveyAlreadyRunningException e) {
+			e.printStackTrace();
+		}
+
+		return viewName;
 	}
-	
+
 	// Starting Survey
 	@GetMapping("/startSurvey")
 	public String initiateSurvey(Model model) {
