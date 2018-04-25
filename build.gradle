@@ -37,6 +37,10 @@ subprojects {
 
     jar {
         manifest.attributes provider: 'gradle'
+        from('tsa-gui/dist') {
+        		//Public is a default supported Spring Boot resources directory.
+        		into 'public'
+    		}
     }
 
     //Setup the test task
