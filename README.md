@@ -12,6 +12,10 @@ This application facilitates the Employees survey done by the Talent Services.
 * Java 8
 * Spring Boot
 * Spring REST
+* Spring Data
+* JPA
+* Hibernate
+* MySQL
 * Angular 4
 * Logging - slf4j
 * TestNG
