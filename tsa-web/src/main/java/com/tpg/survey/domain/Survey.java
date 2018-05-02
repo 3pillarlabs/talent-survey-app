@@ -4,12 +4,14 @@
 package com.tpg.survey.domain;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,6 +44,9 @@ public class Survey extends BaseDomain {
 	
 	@Column(name = "is_launched")
 	private boolean isLaunched = Boolean.FALSE;
+	
+	@OneToMany (mappedBy = "survey")
+	private Set<QuestionnaireSection> sections;
 	
 	public Date getSurveyStartDate() {
 		return surveyStartDate;
@@ -81,6 +86,14 @@ public class Survey extends BaseDomain {
 
 	public void setLaunched(boolean isLaunched) {
 		this.isLaunched = isLaunched;
+	}
+
+	public Set<QuestionnaireSection> getSections() {
+		return sections;
+	}
+
+	public void setSections(Set<QuestionnaireSection> sections) {
+		this.sections = sections;
 	}
 
 }

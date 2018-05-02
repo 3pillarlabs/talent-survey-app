@@ -63,3 +63,69 @@ CREATE TABLE `survey_links` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2018-04-25 15:43:02
+
+
+DROP TABLE IF EXISTS `questionnaire_section`;
+
+CREATE TABLE `questionnaire_section` (
+  `section_id` int(11) NOT NULL AUTO_INCREMENT,
+  `section_title` varchar(100) NOT NULL,
+  `survey_id`  int(11) NOT NULL,
+  PRIMARY KEY (`section_id`),
+  FOREIGN KEY (`survey_id`) REFERENCES survey(`survey_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+/*Run to dummy insert in questionnaire_section table, add section id that is available in your section table for testing
+insert into questionnaire_section (section_title, survey_id) values ("Talent Engagement Survey", 6);
+insert into questionnaire_section (section_title, survey_id) values ("Tell us something about yourself", 6);
+insert into questionnaire_section (section_title, survey_id) values ("On a scale of 1 to 10 (1 being the lowest and 10th being the highest)", 6);
+insert into questionnaire_section (section_title, survey_id) values ("Open-ended questions", 6);
+*/
+
+DROP TABLE IF EXISTS `questionnaire_element`;
+
+CREATE TABLE `questionnaire_element` (
+  `element_id` int(11) NOT NULL AUTO_INCREMENT,
+  `element` text NOT NULL,
+  `element_type`  enum ('TEXT','RADIOGROUP','HTML','BULLET','RATING') NOT NULL,
+  `options` text,
+  `is_mandatory` boolean default false,
+  `min_value` varchar(20),
+  `max_value` varchar(20),
+  `section_id` int(11) NOT NULL,
+  PRIMARY KEY (`element_id`),
+  FOREIGN KEY (`section_id`) REFERENCES questionnaire_section(`section_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+/*Run to dummy insert in questionnaire_element table;
+insert into questionnaire_element (element, element_type, is_mandatory,section_id) values 
+("Thank you for taking out a moment to answer our Talent Engagement Survey.", 'HTML', true, 1);
+
+insert into questionnaire_element (element, element_type, section_id) values 
+("The office location is the only section that is required. On the other two identifiers-don't feel obligated to fill these out - they are completely optional.", 
+'HTML', 2);
+
+insert into questionnaire_element (element, element_type, options, is_mandatory, section_id) values 
+("Office Location.", 'RADIOGROUP', "India, Cluj, Timisoara, US, Iasi", true, 2);
+
+
+insert into questionnaire_element (element, element_type, options, is_mandatory, section_id) values 
+("Direct Manager (This information will be used strictly to aid your Talent Engagement Partner in sorting data.).", 
+'BULLET', "XYZ, ABC, SDF, WER, QIYUI, WWWW", true, 2);
+
+insert into questionnaire_element (element, element_type, options, is_mandatory, min_value, max_value, section_id) values 
+("How happy are you at work?", 'RATING', "1,2,3,4,5,6,7,8,9,10", true, "1", "10", 3);
+
+
+insert into questionnaire_element (element, element_type, options, is_mandatory, min_value, max_value, section_id) values 
+("How would you rate 3Pillar's culture?", 'RATING', "1,2,3,4,5,6,7,8,9,10", true, "1", "10", 3);
+
+insert into questionnaire_element (element, element_type, is_mandatory, section_id) values 
+("What is the one thing that the organisation could do to improve your overall happiness?", 'TEXT', true, 4);
+
+insert into questionnaire_element (element, element_type, is_mandatory, section_id) values 
+("What is the one thing that your manager could do to improve your overall job satisfaction?", 'TEXT', true, 4);
+
+insert into questionnaire_element (element, element_type, is_mandatory, section_id) values 
+("Any other feedback?", 'TEXT', true, 4);
+ */
