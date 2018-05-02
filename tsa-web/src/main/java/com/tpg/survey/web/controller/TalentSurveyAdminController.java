@@ -52,4 +52,9 @@ public class TalentSurveyAdminController {
 		model.addAttribute("survey", new Survey());
 		return "startSurvey";
 	}
+	
+	@GetMapping("/dashboard")
+	public String dashboard() {
+		return "dashboard";
+	}
 }
