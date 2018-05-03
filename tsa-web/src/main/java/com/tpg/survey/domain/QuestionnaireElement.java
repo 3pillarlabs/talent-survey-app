@@ -17,6 +17,13 @@ import com.tpg.survey.web.enums.ElementType;
 @Table (name = "questionnaire_element")
 public class QuestionnaireElement {
 
+	@Override
+	public String toString() {
+		return "QuestionnaireElement [elementId=" + elementId + ", element=" + element + ", type=" + type + ", options="
+				+ options + ", isMandatory=" + isMandatory + ", minValue=" + minValue + ", maxValue=" + maxValue
+				+ ", section=" + section + "]";
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "element_id")
