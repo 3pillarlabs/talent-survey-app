@@ -3,9 +3,14 @@ package com.tpg.survey.web.reports;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+
+import org.assertj.core.util.Arrays;
 
 import com.tpg.survey.domain.QuestionnaireElement;
 
@@ -29,39 +34,53 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 public class OfficeLocationWiseReport {
 	
-	private Map<String, Map<String, String>> officeLocationData;
 	
-	private List<OfficeWiseLocationAvgScores> datasource = new ArrayList<>();
+	private List<ReportColumnElement> datasource = new ArrayList<>();
+//	DRData dataSourcebar = new DRDataSource("state", "item", "quantity");
+
 	public OfficeLocationWiseReport(Map<String, Map<String, String>> officeWiseData, List<QuestionnaireElement> list) {
-		// {Cluj={4=Cluj, 6=5.5, 7=5.5}, Fairfax={4=Fairfax, 6=6.0, 7=8.5}, India={4=India, 6=8.0, 7=8.666666666666666}, Timisoara={4=Timisoara, 6=7.0, 7=6.375}}
+		// {Cluj={4=Cluj, 6=6.0, 7=7}, Fairfax={4=Fairfax, 6=6.0, 7=8.5}, India={4=India, 6=8.0, 7=8.666666666666666}, Timisoara={4=Timisoara, 6=7.0, 7=6.375}}
 		
 		// [QuestionnaireElement [elementId=4, element=Office Location., type=RADIOGROUP, options=India, Cluj, Timisoara, US, Iasi, 
 		// isMandatory=true, minValue=null, maxValue=null, section=com.tpg.survey.domain.QuestionnaireSection@285dd6be], QuestionnaireElement 
 		// [elementId=6, element=How happy are you at work?, type=RATING, options=1,2,3,4,5,6,7,8,9,10, isMandatory=true, minValue=1, maxValue=10, 
 		// section=com.tpg.survey.domain.QuestionnaireSection@71d66edc], QuestionnaireElement [elementId=7, element=How would you rate 3Pillar's culture?, type=RATING, options=1,2,3,4,5,6,7,8,9,10, isMandatory=true, minValue=1, maxValue=10, section=com.tpg.survey.domain.QuestionnaireSection@71d66edc]]
 
-		this.officeLocationData = officeWiseData;
-		for(Entry<String, Map<String, String>> e : officeWiseData.entrySet()){
-			OfficeWiseLocationAvgScores oLocationAvgScores = new OfficeWiseLocationAvgScores();
-			oLocationAvgScores.setOfficeLocation(e.getKey());
-			Map<String, String> mapToAdd = new HashMap<>();
-			for(Entry<String, String> e2 : e.getValue().entrySet()){
-				String question = e2.getKey();
+		Set<String> locations = officeWiseData.keySet();
+		for(String location : locations){
+			
+		}
+		Map<String, List<String>> questionVsAvg = new HashMap<>();
+		for(Map<String, String> e : officeWiseData.values()){
+			String quesString = null;
+			for(Entry<String, String> entry : e.entrySet()){
 				for(QuestionnaireElement qe : list){
-					if(qe.getElementId().trim().equalsIgnoreCase(question.trim())){
-						String key = qe.getElement();
-						mapToAdd.put(key, e2.getValue());
+					if(qe.getElementId().trim().equalsIgnoreCase(entry.getKey().trim())){
+						quesString = qe.getElement();
 						break;
 					}
 				}
+				if(questionVsAvg.containsKey(quesString)){
+					List<String> value = questionVsAvg.get(quesString);
+					value.add(entry.getValue());
+				}else{
+					List<String> value = new LinkedList<>();
+					value.add(entry.getValue());
+					questionVsAvg.put(quesString, value);
+				}
 			}
-			List<Map<String, String>> questionWiseAverageScores = new ArrayList<>();
-			questionWiseAverageScores.add(mapToAdd);
-			oLocationAvgScores.setQuestionWiseAverageScores(questionWiseAverageScores);
-			datasource.add(oLocationAvgScores);
 		}
 		
-		
+		System.out.println("questionVsAvg : " + questionVsAvg);
+		for(Entry<String, List<String>> e : questionVsAvg.entrySet()){
+			ReportColumnElement element = new ReportColumnElement();
+			element.setQuestion(e.getKey());
+			element.setAverageCluj(e.getValue().get(0));
+			element.setAverageFaifax(e.getValue().get(1));
+			element.setAverageIndia(e.getValue().get(2));
+			element.setAverageTimi(e.getValue().get(3));
+			datasource.add(element);
+		}
 	}
 
 	public JasperPrint getReport() throws ColumnBuilderException, JRException, ClassNotFoundException {
@@ -128,9 +147,13 @@ public class OfficeLocationWiseReport {
 
 		DynamicReportBuilder report = new DynamicReportBuilder();
 		
-		AbstractColumn columnQuestion = createColumn("officeLocation", String.class, "Question", 30, headerStyle, detailTextStyle);
-		AbstractColumn column = createColumn("questionWiseAverageScores", List.class, "", 30, headerStyle, detailTextStyle);
-		report.addColumn(columnQuestion).addColumn(column);
+//		AbstractColumn columnCountry = createColumn("location", String.class, "location", 30, headerStyle, detailTextStyle);
+		AbstractColumn columnQuestion = createColumn("question", String.class, "question", 30, headerStyle, detailTextStyle);
+		AbstractColumn columnAverageCluj = createColumn("averageCluj", String.class, "Cluj Average", 30, headerStyle, detailTextStyle);
+		AbstractColumn columnaverageFaifax = createColumn("averageFaifax", String.class, "Fairfax Average", 30, headerStyle, detailTextStyle);
+		AbstractColumn columnaverageIndia = createColumn("averageIndia", String.class, "India Average", 30, headerStyle, detailTextStyle);
+		AbstractColumn columnaverageTimi = createColumn("averageTimi", String.class, "Timisoara Average", 30, headerStyle, detailTextStyle);
+		report.addColumn(columnQuestion).addColumn(columnAverageCluj).addColumn(columnaverageFaifax).addColumn(columnaverageIndia).addColumn(columnaverageTimi);
 		/*for(Entry<String, Map<String, String>> e : officeLocationData.entrySet()){
 			AbstractColumn column = createColumn("questionWiseAverageScores", List.class, e.getKey(), 30, headerStyle, detailTextStyle);
 			report.addColumn(column);
