@@ -19,10 +19,10 @@ import com.tpg.survey.web.pojos.Element;
 @RestController
 public class SurveyQuestionsController {
 
-	@Value("${talent.survey.questions.file.name}") // Desktop location, needs to be changed to remote location
+	@Value("${talent.survey.questions.file.name}")
 	private String questionarrieFile;
 	
-	@Value("${talent.survey.response.file.name}") // Desktop location, needs to be changed to remote location
+	@Value("${talent.survey.response.file.name}")
 	private String responseFile;
 	
 	@Autowired
