@@ -7,14 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tpg.survey.domain.QuestionnaireElement;
+import com.tpg.survey.domain.QuestionnaireSection;
 import com.tpg.survey.repository.QuestionnaireElementRepository;
+import com.tpg.survey.repository.SectionRepository;
 import com.tpg.survey.web.enums.ElementType;
 
 @Service
-public class QuestionElementServiceImpl implements QuestionElementService {
+public class ElementServiceImpl implements ElementService {
 
 	@Autowired
 	private QuestionnaireElementRepository elementRepository;
+	
+	@Autowired
+	private SectionRepository sectionRepository;
 	
 	@Override
 	public List<QuestionnaireElement> getElementByType(List<ElementType> elementTypes) {
@@ -27,6 +32,12 @@ public class QuestionElementServiceImpl implements QuestionElementService {
 			}
 		}
 		return resultList;
+	}
+	
+	@Override
+	public List<QuestionnaireSection> getAllSections(){
+		List<QuestionnaireSection> list = sectionRepository.findAll();
+		return list;
 	}
 
 }

@@ -11,11 +11,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tpg.survey.web.enums.ElementType;
 
 @Entity
 @Table (name = "questionnaire_element")
-public class QuestionnaireElement {
+public class QuestionnaireElement extends BaseDomain{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public String toString() {
@@ -50,6 +56,7 @@ public class QuestionnaireElement {
 	
 	@ManyToOne
 	@JoinColumn (name = "section_id", nullable = false)
+	@JsonBackReference
 	private QuestionnaireSection section;
 
 	public String getElementId() {

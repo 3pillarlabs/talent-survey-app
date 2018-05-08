@@ -12,10 +12,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table (name = "questionnaire_section")
-public class QuestionnaireSection {
+public class QuestionnaireSection extends BaseDomain {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "section_id")
@@ -26,9 +33,11 @@ public class QuestionnaireSection {
 	
 	@ManyToOne
 	@JoinColumn (name = "survey_id", nullable = false)
+	@JsonManagedReference
 	private Survey survey;
 	
 	@OneToMany (mappedBy = "section")
+	@JsonManagedReference
 	private Set<QuestionnaireElement> elements;
 
 	public String getSectionId() {

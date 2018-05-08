@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tpg.survey.service.QuestionElementService;
+import com.tpg.survey.service.ElementService;
 import com.tpg.survey.service.ReportService;
 import com.tpg.survey.web.data.ReportData;
 import com.tpg.survey.web.enums.ElementType;
@@ -32,7 +32,7 @@ public class ReportController {
 	private ReportData reportData;
 	
 	@Autowired
-	private QuestionElementService quesElementService;
+	private ElementService quesElementService;
 	
 	@Value("${talent.survey.response.sample.file.name}") // needs to be changed
 	private String responseFile;

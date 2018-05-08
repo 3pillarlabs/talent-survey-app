@@ -3,14 +3,11 @@ package com.tpg.survey.web.reports;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
-import org.assertj.core.util.Arrays;
 
 import com.tpg.survey.domain.QuestionnaireElement;
 
@@ -46,10 +43,10 @@ public class OfficeLocationWiseReport {
 		// [elementId=6, element=How happy are you at work?, type=RATING, options=1,2,3,4,5,6,7,8,9,10, isMandatory=true, minValue=1, maxValue=10, 
 		// section=com.tpg.survey.domain.QuestionnaireSection@71d66edc], QuestionnaireElement [elementId=7, element=How would you rate 3Pillar's culture?, type=RATING, options=1,2,3,4,5,6,7,8,9,10, isMandatory=true, minValue=1, maxValue=10, section=com.tpg.survey.domain.QuestionnaireSection@71d66edc]]
 
-		Set<String> locations = officeWiseData.keySet();
+		/*Set<String> locations = officeWiseData.keySet();
 		for(String location : locations){
 			
-		}
+		}*/
 		Map<String, List<String>> questionVsAvg = new HashMap<>();
 		for(Map<String, String> e : officeWiseData.values()){
 			String quesString = null;

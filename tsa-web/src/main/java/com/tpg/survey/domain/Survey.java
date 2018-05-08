@@ -16,6 +16,8 @@ import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * @author amit.bharti
  *
@@ -46,6 +48,7 @@ public class Survey extends BaseDomain {
 	private boolean isLaunched = Boolean.FALSE;
 	
 	@OneToMany (mappedBy = "survey")
+	@JsonBackReference
 	private Set<QuestionnaireSection> sections;
 	
 	public Date getSurveyStartDate() {

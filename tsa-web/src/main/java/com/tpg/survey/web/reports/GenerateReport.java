@@ -23,16 +23,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.tpg.survey.domain.QuestionnaireElement;
-import com.tpg.survey.service.QuestionElementService;
+import com.tpg.survey.service.ElementService;
 import com.tpg.survey.web.enums.ElementType;
 
 
@@ -40,7 +38,7 @@ import com.tpg.survey.web.enums.ElementType;
 public class GenerateReport {
 
 	@Autowired
-	private QuestionElementService elementService;
+	private ElementService elementService;
 	
 	private static Map<Integer, String> columnVsElementId = new HashMap<>();
 	private final String officeLocationElementIdKey = "4";

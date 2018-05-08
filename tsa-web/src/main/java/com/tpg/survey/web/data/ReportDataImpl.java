@@ -21,14 +21,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.tpg.survey.domain.QuestionnaireElement;
-import com.tpg.survey.service.QuestionElementService;
+import com.tpg.survey.service.ElementService;
 import com.tpg.survey.web.enums.ElementType;
 
 @Repository
 public class ReportDataImpl implements ReportData {
 
 	@Autowired
-	private QuestionElementService elementService;
+	private ElementService elementService;
 	
 	private final String officeLocationElementIdKey = "4"; // will fetch from DB further
 	private static List<QuestionnaireElement> elementsFromDb = new ArrayList<>();

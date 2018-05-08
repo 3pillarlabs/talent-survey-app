@@ -104,6 +104,8 @@ insert into questionnaire_element (element, element_type, is_mandatory,section_i
 insert into questionnaire_element (element, element_type, section_id) values 
 ("The office location is the only section that is required. On the other two identifiers-don't feel obligated to fill these out - they are completely optional.", 
 'HTML', 2);
+insert into questionnaire_element (element, element_type, is_mandatory,section_id, options) values 
+("Depatment", 'RADIOGROUP', true, 2, "Admin, IT, Engineering");
 
 insert into questionnaire_element (element, element_type, options, is_mandatory, section_id) values 
 ("Office Location.", 'RADIOGROUP', "India, Cluj, Timisoara, US, Iasi", true, 2);
@@ -129,3 +131,15 @@ insert into questionnaire_element (element, element_type, is_mandatory, section_
 insert into questionnaire_element (element, element_type, is_mandatory, section_id) values 
 ("Any other feedback?", 'TEXT', true, 4);
  */
+
+DROP TABLE IF EXISTS `tsa_response`;
+
+CREATE TABLE `tsa_response` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `timestamp` datetime NOT NULL,
+  `officeLocation`  varchar(100) NOT NULL,
+  `department` varchar(100) DEFAULT NULL,
+  `manager` varchar(100) DEFAULT NULL,
+  `answer` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
