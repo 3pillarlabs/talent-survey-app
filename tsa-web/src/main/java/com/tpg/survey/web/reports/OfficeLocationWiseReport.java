@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 
-import com.tpg.survey.domain.QuestionnaireElement;
+import com.tpg.survey.domain.SurveyElement;
 
 import ar.com.fdvs.dj.core.DynamicJasperHelper;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
@@ -35,7 +35,7 @@ public class OfficeLocationWiseReport {
 	private List<ReportColumnElement> datasource = new ArrayList<>();
 //	DRData dataSourcebar = new DRDataSource("state", "item", "quantity");
 
-	public OfficeLocationWiseReport(Map<String, Map<String, String>> officeWiseData, List<QuestionnaireElement> list) {
+	public OfficeLocationWiseReport(Map<String, Map<String, String>> officeWiseData, List<SurveyElement> list) {
 		// {Cluj={4=Cluj, 6=6.0, 7=7}, Fairfax={4=Fairfax, 6=6.0, 7=8.5}, India={4=India, 6=8.0, 7=8.666666666666666}, Timisoara={4=Timisoara, 6=7.0, 7=6.375}}
 		
 		// [QuestionnaireElement [elementId=4, element=Office Location., type=RADIOGROUP, options=India, Cluj, Timisoara, US, Iasi, 
@@ -51,8 +51,8 @@ public class OfficeLocationWiseReport {
 		for(Map<String, String> e : officeWiseData.values()){
 			String quesString = null;
 			for(Entry<String, String> entry : e.entrySet()){
-				for(QuestionnaireElement qe : list){
-					if(qe.getElementId().trim().equalsIgnoreCase(entry.getKey().trim())){
+				for(SurveyElement qe : list){
+					if(String.valueOf(qe.getElementId()).trim().equalsIgnoreCase(entry.getKey().trim())){
 						quesString = qe.getElement();
 						break;
 					}

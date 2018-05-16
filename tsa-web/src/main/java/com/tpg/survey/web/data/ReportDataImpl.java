@@ -20,7 +20,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.tpg.survey.domain.QuestionnaireElement;
+import com.tpg.survey.domain.SurveyElement;
 import com.tpg.survey.service.ElementService;
 import com.tpg.survey.web.enums.ElementType;
 
@@ -31,7 +31,7 @@ public class ReportDataImpl implements ReportData {
 	private ElementService elementService;
 	
 	private final String officeLocationElementIdKey = "4"; // will fetch from DB further
-	private static List<QuestionnaireElement> elementsFromDb = new ArrayList<>();
+	private static List<SurveyElement> elementsFromDb = new ArrayList<>();
 	@Override
 	public List<Map<String, String>> getDataFromResponseFile(String fileName) {
 		
@@ -103,8 +103,8 @@ public class ReportDataImpl implements ReportData {
 		elementsFromDb = elementService.getElementByType(elementTypes);
 		System.out.println("elementsFromDb : " + elementsFromDb);
 		List<String> keys = new ArrayList<>();
-		for(QuestionnaireElement q : elementsFromDb){
-			keys.add(q.getElementId().trim());
+		for(SurveyElement q : elementsFromDb){
+			keys.add(String.valueOf(q.getElementId()));
 		}
 		System.out.println("keys : " + keys);
 		for (Map<String, String> m : responseList){

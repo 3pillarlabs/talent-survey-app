@@ -1,5 +1,9 @@
 package com.tpg.survey.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,33 +11,25 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tpg.survey.web.enums.ElementType;
 
 @Entity
-@Table (name = "questionnaire_element")
-public class QuestionnaireElement extends BaseDomain{
+@Table (name = "tsa_element")
+public class SurveyElement extends BaseDomain{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	public String toString() {
-		return "QuestionnaireElement [elementId=" + elementId + ", element=" + element + ", type=" + type + ", options="
-				+ options + ", isMandatory=" + isMandatory + ", minValue=" + minValue + ", maxValue=" + maxValue
-				+ ", section=" + section + "]";
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "element_id")
-	private String elementId;
+	private Long elementId;
 	
 	@Column(name = "element")
 	private String element;
@@ -45,25 +41,24 @@ public class QuestionnaireElement extends BaseDomain{
 	@Column(name = "options") // required for RADIOGROUP, RATING, BULLET type
 	private String options;
 	
-	@Column(name = "is_mandatory")
-	private boolean isMandatory;
-	
 	@Column(name = "min_value") // required only for RATING type
 	private String minValue;
 	
 	@Column(name = "max_value") // required only for RATING type
 	private String maxValue;
 	
-	@ManyToOne
-	@JoinColumn (name = "section_id", nullable = false)
+	@OneToMany( mappedBy = "surveyElement",
+	        	cascade = CascadeType.ALL,
+	        	orphanRemoval = true
+	    )
 	@JsonBackReference
-	private QuestionnaireSection section;
-
-	public String getElementId() {
+	private Set<SurveySection> sections = new HashSet<>();
+	
+	public Long getElementId() {
 		return elementId;
 	}
 
-	public void setElementId(String elementId) {
+	public void setElementId(Long elementId) {
 		this.elementId = elementId;
 	}
 
@@ -91,14 +86,6 @@ public class QuestionnaireElement extends BaseDomain{
 		this.options = options;
 	}
 
-	public boolean isMandatory() {
-		return isMandatory;
-	}
-
-	public void setMandatory(boolean isMandatory) {
-		this.isMandatory = isMandatory;
-	}
-
 	public String getMinValue() {
 		return minValue;
 	}
@@ -115,13 +102,17 @@ public class QuestionnaireElement extends BaseDomain{
 		this.maxValue = maxValue;
 	}
 
-	public QuestionnaireSection getSection() {
-		return section;
+	public Set<SurveySection> getSections() {
+		return sections;
 	}
 
-	public void setSection(QuestionnaireSection section) {
-		this.section = section;
+	public void setSections(Set<SurveySection> sections) {
+		this.sections = sections;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "SurveyElement [elementId=" + elementId + ", element=" + element + ", type=" + type + ", options="
+				+ options + ", minValue=" + minValue + ", maxValue=" + maxValue + ", sections=" + sections + "]";
+	}
 }

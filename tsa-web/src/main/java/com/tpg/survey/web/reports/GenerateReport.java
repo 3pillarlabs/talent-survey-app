@@ -29,7 +29,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.tpg.survey.domain.QuestionnaireElement;
+import com.tpg.survey.domain.SurveyElement;
 import com.tpg.survey.service.ElementService;
 import com.tpg.survey.web.enums.ElementType;
 
@@ -43,7 +43,7 @@ public class GenerateReport {
 	private static Map<Integer, String> columnVsElementId = new HashMap<>();
 	private final String officeLocationElementIdKey = "4";
 	private static Map<String, Integer> occurences = new HashMap<>();
-	private static List<QuestionnaireElement> elementsFromDb = new ArrayList<>();
+	private static List<SurveyElement> elementsFromDb = new ArrayList<>();
 	
 	public List<Map<String, String>> readResponseFile(String fileName) {
 		List<Map<String, String>> responseList = new ArrayList<>();
@@ -243,8 +243,8 @@ public class GenerateReport {
 		elementsFromDb = elementService.getElementByType(elementTypes);
 		System.out.println("elementsFromDb : " + elementsFromDb);
 		List<String> keys = new ArrayList<>();
-		for(QuestionnaireElement q : elementsFromDb){
-			keys.add(q.getElementId().trim());
+		for(SurveyElement q : elementsFromDb){
+			keys.add(String.valueOf(q.getElementId()));
 		}
 		System.out.println("keys : " + keys);
 		for (Map<String, String> m : responseList){
@@ -294,7 +294,7 @@ public class GenerateReport {
         for(Entry<String, Integer> head : occurences.entrySet()){
 			table.addCell(head.getKey());
 		}
-        for(QuestionnaireElement question : elementsFromDb){
+        for(SurveyElement question : elementsFromDb){
         	
         }
         for(Entry<String, Map<String, String>> row : resultMap.entrySet()){

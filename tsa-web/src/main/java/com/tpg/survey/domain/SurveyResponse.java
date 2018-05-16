@@ -7,9 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table (name = "tsa_response")
@@ -37,6 +41,11 @@ public class SurveyResponse extends BaseDomain{
 	
 	@Column(name = "manager")
 	private String manager;
+	
+	@ManyToOne
+	@JoinColumn (name = "question_id", nullable = false)
+	@JsonManagedReference
+	private SurveyElement questionnaireElement;
 	
 	@Column(name = "answer")
 	private String answer;
@@ -74,7 +83,15 @@ public class SurveyResponse extends BaseDomain{
 	@Override
 	public String toString() {
 		return "SurveyResponse [id=" + id + ", timestamp=" + timestamp + ", officeLocation=" + officeLocation
-				+ ", department=" + department + ", manager=" + manager + ", answer=" + answer + "]";
+				+ ", department=" + department + ", manager=" + manager + ", questionnaireElement="
+				+ questionnaireElement + ", answer=" + answer + "]";
+	}
+	
+	public SurveyElement getQuestionnaireElement() {
+		return questionnaireElement;
+	}
+	public void setQuestionnaireElement(SurveyElement questionnaireElement) {
+		this.questionnaireElement = questionnaireElement;
 	}
 	public String getAnswer() {
 		return answer;

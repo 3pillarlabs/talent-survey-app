@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tpg.survey.domain.QuestionnaireElement;
-import com.tpg.survey.domain.QuestionnaireSection;
+import com.tpg.survey.domain.SurveyElement;
+import com.tpg.survey.domain.SurveySection;
 import com.tpg.survey.repository.QuestionnaireElementRepository;
 import com.tpg.survey.repository.SectionRepository;
 import com.tpg.survey.web.enums.ElementType;
@@ -22,11 +22,11 @@ public class ElementServiceImpl implements ElementService {
 	private SectionRepository sectionRepository;
 	
 	@Override
-	public List<QuestionnaireElement> getElementByType(List<ElementType> elementTypes) {
+	public List<SurveyElement> getElementByType(List<ElementType> elementTypes) {
 
-		List<QuestionnaireElement> allElements = elementRepository.findAll();
-		List<QuestionnaireElement> resultList = new ArrayList<>();
-		for(QuestionnaireElement q : allElements){
+		List<SurveyElement> allElements = elementRepository.findAll();
+		List<SurveyElement> resultList = new ArrayList<>();
+		for(SurveyElement q : allElements){
 			if(elementTypes.contains(q.getType())){
 				resultList .add(q);
 			}
@@ -35,8 +35,8 @@ public class ElementServiceImpl implements ElementService {
 	}
 	
 	@Override
-	public List<QuestionnaireSection> getAllSections(){
-		List<QuestionnaireSection> list = sectionRepository.findAll();
+	public List<SurveySection> getAllSections(){
+		List<SurveySection> list = sectionRepository.findAll();
 		return list;
 	}
 

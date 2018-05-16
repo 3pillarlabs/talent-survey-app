@@ -2,21 +2,21 @@ package com.tpg.survey.domain;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-@Table (name = "questionnaire_section")
-public class QuestionnaireSection extends BaseDomain {
+@Table (name = "tsa_section")
+public class SurveySection extends BaseDomain {
 	
 	/**
 	 * 
@@ -26,25 +26,27 @@ public class QuestionnaireSection extends BaseDomain {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "section_id")
-	private String sectionId;
+	private Long sectionId;
 	
 	@Column(name = "section_title")
 	private String sectionTitle;
 	
-	@ManyToOne
-	@JoinColumn (name = "survey_id", nullable = false)
+	@ManyToMany (mappedBy = "sections")
 	@JsonManagedReference
-	private Survey survey;
+	private Set<Survey> surveys;
 	
-	@OneToMany (mappedBy = "section")
+	@OneToMany( mappedBy = "surveySection", 
+	        cascade = CascadeType.ALL, 
+	        orphanRemoval = true
+	)
 	@JsonManagedReference
-	private Set<QuestionnaireElement> elements;
+	private Set<SurveyElement> elements;
 
-	public String getSectionId() {
+	public Long getSectionId() {
 		return sectionId;
 	}
 
-	public void setSectionId(String sectionId) {
+	public void setSectionId(Long sectionId) {
 		this.sectionId = sectionId;
 	}
 
@@ -56,20 +58,26 @@ public class QuestionnaireSection extends BaseDomain {
 		this.sectionTitle = sectionTitle;
 	}
 
-	public Survey getSurvey() {
-		return survey;
+	public Set<Survey> getSurveys() {
+		return surveys;
 	}
 
-	public void setSurvey(Survey survey) {
-		this.survey = survey;
+	public void setSurveys(Set<Survey> surveys) {
+		this.surveys = surveys;
 	}
 
-	public Set<QuestionnaireElement> getElements() {
+	public Set<SurveyElement> getElements() {
 		return elements;
 	}
 
-	public void setElements(Set<QuestionnaireElement> elements) {
+	public void setElements(Set<SurveyElement> elements) {
 		this.elements = elements;
+	}
+
+	@Override
+	public String toString() {
+		return "QuestionnaireSection [sectionId=" + sectionId + ", sectionTitle=" + sectionTitle + ", surveys="
+				+ surveys + ", elements=" + elements + "]";
 	}
 
 }

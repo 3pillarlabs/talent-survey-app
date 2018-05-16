@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tpg.survey.domain.QuestionnaireSection;
+import com.tpg.survey.domain.SurveySection;
 import com.tpg.survey.service.ElementService;
 import com.tpg.survey.service.SurveyResponseService;
 import com.tpg.survey.web.data.SurveyQuestionData;
 import com.tpg.survey.web.data.SurveyQuestionDataImpl;
 import com.tpg.survey.web.pojos.Element;
+import com.tpg.survey.web.pojos.SurveyResponseDTO;
 
 @RestController
 public class TalentSurveyController {
@@ -49,7 +50,7 @@ public class TalentSurveyController {
 	private SurveyResponseService responseService;
 	
 	@CrossOrigin
-	@RequestMapping (value = "/getQuestions", method = RequestMethod.GET)
+	@RequestMapping (value = "/getQuestionsFromExcel", method = RequestMethod.GET)
 	public Map<String, List<Element>> retrieveSurveyQuestionsFromExcel (){
 		Map<String, List<Element>> allQuestions = surveyQuestionData.getQuestions(questionarrieFile);
 		System.out.println(SurveyQuestionDataImpl.getIdQuestionMap());
@@ -57,18 +58,29 @@ public class TalentSurveyController {
 	}
 	
 	@CrossOrigin
-	@RequestMapping (value = "/getQuestions2", method = RequestMethod.GET)
-	public List<QuestionnaireSection> retrieveSurveyQuestions (){
-		List<QuestionnaireSection> list = elementService.getAllSections();
+	@RequestMapping (value = "/getQuestions", method = RequestMethod.GET)
+	public List<SurveySection> retrieveSurveyQuestions (){
+		List<SurveySection> list = elementService.getAllSections();
 		return list;
 	}
 	
 	@CrossOrigin
 	@RequestMapping (value = "/persistSurveyResponse", method = RequestMethod.POST)
-	public ResponseEntity<String> saveSurvey (@RequestBody Map<String, String> response){
+	public ResponseEntity<String> saveSurveyToExcel (@RequestBody Map<String, String> response){
 		try {
 			// add validation of response
 			surveyQuestionData.save(response, responseFile);
+			return ResponseEntity.status(HttpStatus.CREATED).build();
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
+		}
+	}
+	
+	@CrossOrigin
+	@RequestMapping (value = "/persistSurveyResponse2", method = RequestMethod.POST)
+	public ResponseEntity<String> saveSurvey (@RequestBody SurveyResponseDTO response){
+		try {
+			responseService.save(response);
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
