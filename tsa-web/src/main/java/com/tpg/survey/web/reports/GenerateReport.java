@@ -294,12 +294,6 @@ public class GenerateReport {
         for(Entry<String, Integer> head : occurences.entrySet()){
 			table.addCell(head.getKey());
 		}
-        for(SurveyElement question : elementsFromDb){
-        	
-        }
-        for(Entry<String, Map<String, String>> row : resultMap.entrySet()){
-        	
-        }
 //        cell.setRowspan(2);
 //        table.addCell(cell);
 //        cell = new PdfPCell(new Phrase("Name"));

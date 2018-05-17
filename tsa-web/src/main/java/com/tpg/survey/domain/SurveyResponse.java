@@ -2,104 +2,93 @@ package com.tpg.survey.domain;
 
 import java.util.Date;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 @Table (name = "tsa_response")
 public class SurveyResponse extends BaseDomain{
 	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private String id;
+	@EmbeddedId
+    @AttributeOverrides({
+            @AttributeOverride(name = "responseId", column = @Column(name = "response_id", nullable = false)),
+            @AttributeOverride(name = "questionId", column = @Column(name = "question_id", nullable = false)) })
+	private SurveyResponseId surveyResponseId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "question_id", nullable = false, insertable = false, updatable = false)
+	private SurveyElement surveyElement; // cpk + fk
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "timestamp")
 	private Date timestamp;
 	
-	@Column(name = "office_location")
-	private String officeLocation;
-	
-	@Column(name = "department")
-	private String department;
-	
-	@Column(name = "manager")
-	private String manager;
-	
-	@ManyToOne
-	@JoinColumn (name = "question_id", nullable = false)
-	@JsonManagedReference
-	private SurveyElement questionnaireElement;
-	
 	@Column(name = "answer")
 	private String answer;
 	
-	public String getId() {
-		return id;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "survey_id", nullable = false, insertable = false, updatable = false)
+	private Survey survey;
+
+	public SurveyResponseId getSurveyResponseId() {
+		return surveyResponseId;
 	}
-	public void setId(String id) {
-		this.id = id;
+
+	public void setSurveyResponseId(SurveyResponseId surveyResponseId) {
+		this.surveyResponseId = surveyResponseId;
 	}
+
 	public Date getTimestamp() {
 		return timestamp;
 	}
+
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
-	public String getOfficeLocation() {
-		return officeLocation;
+
+	public SurveyElement getSurveyElement() {
+		return surveyElement;
 	}
-	public void setOfficeLocation(String officeLocation) {
-		this.officeLocation = officeLocation;
+
+	public void setSurveyElement(SurveyElement surveyElement) {
+		this.surveyElement = surveyElement;
 	}
-	public String getDepartment() {
-		return department;
-	}
-	public void setDepartment(String department) {
-		this.department = department;
-	}
-	public String getManager() {
-		return manager;
-	}
-	public void setManager(String manager) {
-		this.manager = manager;
-	}
-	@Override
-	public String toString() {
-		return "SurveyResponse [id=" + id + ", timestamp=" + timestamp + ", officeLocation=" + officeLocation
-				+ ", department=" + department + ", manager=" + manager + ", questionnaireElement="
-				+ questionnaireElement + ", answer=" + answer + "]";
-	}
-	
-	public SurveyElement getQuestionnaireElement() {
-		return questionnaireElement;
-	}
-	public void setQuestionnaireElement(SurveyElement questionnaireElement) {
-		this.questionnaireElement = questionnaireElement;
-	}
+
 	public String getAnswer() {
 		return answer;
 	}
+
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
-	
-	
+
+	public Survey getSurvey() {
+		return survey;
+	}
+
+	public void setSurvey(Survey survey) {
+		this.survey = survey;
+	}
+
+	@Override
+	public String toString() {
+		return "SurveyResponse [surveyResponseId=" + surveyResponseId + ", timestamp=" + timestamp + ", surveyElement="
+				+ surveyElement + ", answer=" + answer + ", survey=" + survey + "]";
+	}
 
 }

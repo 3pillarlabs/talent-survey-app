@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 
 import com.tpg.survey.domain.SurveyElement;
 import com.tpg.survey.domain.SurveySection;
-import com.tpg.survey.repository.QuestionnaireElementRepository;
-import com.tpg.survey.repository.SectionRepository;
+import com.tpg.survey.repository.SurveyElementRepository;
+import com.tpg.survey.repository.SurveySectionRepository;
 import com.tpg.survey.web.enums.ElementType;
 
 @Service
 public class ElementServiceImpl implements ElementService {
 
 	@Autowired
-	private QuestionnaireElementRepository elementRepository;
+	private SurveyElementRepository elementRepository;
 	
 	@Autowired
-	private SectionRepository sectionRepository;
+	private SurveySectionRepository sectionRepository;
 	
 	@Override
 	public List<SurveyElement> getElementByType(List<ElementType> elementTypes) {
