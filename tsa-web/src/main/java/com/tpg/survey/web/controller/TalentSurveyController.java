@@ -50,7 +50,7 @@ public class TalentSurveyController {
 	private SurveyResponseService responseService;
 	
 	@CrossOrigin
-	@RequestMapping (value = "/getQuestionsFromExcel", method = RequestMethod.GET)
+	@RequestMapping (value = "/getQuestions", method = RequestMethod.GET)
 	public Map<String, List<Element>> retrieveSurveyQuestionsFromExcel (){
 		Map<String, List<Element>> allQuestions = surveyQuestionData.getQuestions(questionarrieFile);
 		System.out.println(SurveyQuestionDataImpl.getIdQuestionMap());
@@ -58,7 +58,7 @@ public class TalentSurveyController {
 	}
 	
 	@CrossOrigin
-	@RequestMapping (value = "/getQuestions", method = RequestMethod.GET)
+	@RequestMapping (value = "/getQuestionsFromDb", method = RequestMethod.GET) // once this is integrated with front end, need to change the name of the rest api
 	public List<SurveySection> retrieveSurveyQuestions (){
 		List<SurveySection> list = elementService.getAllSections();
 		return list;
@@ -77,7 +77,7 @@ public class TalentSurveyController {
 	}
 	
 	@CrossOrigin
-	@RequestMapping (value = "/persistSurveyResponse2", method = RequestMethod.POST)
+	@RequestMapping (value = "/persistSurveyResponseToDb", method = RequestMethod.POST)// once this is integrated with front end, need to change the name of the rest api
 	public ResponseEntity<String> saveSurvey (@RequestBody SurveyResponseDTO response){
 		try {
 			responseService.save(response);

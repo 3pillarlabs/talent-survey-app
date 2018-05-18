@@ -1,7 +1,7 @@
 package com.tpg.survey.domain;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -52,7 +52,7 @@ public class SurveyElement extends BaseDomain{
 	        	orphanRemoval = true
 	    )
 	@JsonBackReference
-	private Set<SurveySection> sections = new HashSet<>();
+	private List<SectionElementMappingTable> sections = new ArrayList<>();
 	
 	public Long getElementId() {
 		return elementId;
@@ -102,14 +102,14 @@ public class SurveyElement extends BaseDomain{
 		this.maxValue = maxValue;
 	}
 
-	public Set<SurveySection> getSections() {
+	public List<SectionElementMappingTable> getSections() {
 		return sections;
 	}
 
-	public void setSections(Set<SurveySection> sections) {
+	public void setSections(List<SectionElementMappingTable> sections) {
 		this.sections = sections;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "SurveyElement [elementId=" + elementId + ", element=" + element + ", type=" + type + ", options="

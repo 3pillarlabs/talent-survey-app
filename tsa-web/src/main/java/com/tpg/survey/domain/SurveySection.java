@@ -1,5 +1,7 @@
 package com.tpg.survey.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -40,7 +42,7 @@ public class SurveySection extends BaseDomain {
 	        orphanRemoval = true
 	)
 	@JsonManagedReference
-	private Set<SurveyElement> elements;
+	private List<SectionElementMappingTable> elements = new ArrayList<>();
 
 	public Long getSectionId() {
 		return sectionId;
@@ -66,11 +68,11 @@ public class SurveySection extends BaseDomain {
 		this.surveys = surveys;
 	}
 
-	public Set<SurveyElement> getElements() {
+	public List<SectionElementMappingTable> getElements() {
 		return elements;
 	}
 
-	public void setElements(Set<SurveyElement> elements) {
+	public void setElements(List<SectionElementMappingTable> elements) {
 		this.elements = elements;
 	}
 
