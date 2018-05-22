@@ -4,15 +4,22 @@
 package com.tpg.survey.domain;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * @author amit.bharti
@@ -42,6 +49,15 @@ public class Survey extends BaseDomain {
 	
 	@Column(name = "is_launched")
 	private boolean isLaunched = Boolean.FALSE;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable (
+			name = "survey_section",
+			joinColumns = { @JoinColumn (name = "survey_id")},
+			inverseJoinColumns = { @JoinColumn (name = "section_id")}
+			)
+	@JsonBackReference
+	private Set<SurveySection> sections;
 	
 	public Date getSurveyStartDate() {
 		return surveyStartDate;
@@ -83,4 +99,20 @@ public class Survey extends BaseDomain {
 		this.isLaunched = isLaunched;
 	}
 
+	public Set<SurveySection> getSections() {
+		return sections;
+	}
+
+	public void setSections(Set<SurveySection> sections) {
+		this.sections = sections;
+	}
+
+	@Override
+	public String toString() {
+		return "Survey [surveyId=" + surveyId + ", surveyStartDate=" + surveyStartDate + ", surveyEndDate="
+				+ surveyEndDate + ", isActive=" + isActive + ", isLaunched=" + isLaunched + ", sections=" + sections
+				+ "]";
+	}
+
+	
 }
