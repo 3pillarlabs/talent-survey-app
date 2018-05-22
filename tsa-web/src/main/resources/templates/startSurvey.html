@@ -11,20 +11,61 @@
 	href="../../css/main.css" />
 </head>
 <body>
-	<h1>Start Talent Survey</h1>
-	<form action="#" th:action="@{/admin/launchSurvey}" th:object="${survey}"
-		method="post">
-		<p>
-			Survey Start Date: <input type="date" th:field="*{surveyStartDate}" />
-		</p>
-		<p>
-			Survey End Date: <input type="date" th:field="*{surveyEndDate}" />
-		</p>
-		<p>
-			<input type="submit" value="Submit" /> <input type="reset"
-				value="Reset" />
-		</p>
-	</form>
+<table style="max-width:100%; min-width:100%" width="100%" height="100%" class="">
+    <tbody>
+        <tr>
+            <td valign="top" class="" style="padding:5px 80px 20px; font-family:Arial, Helvetica, sans-serif; font-size:18px; text-align:center; background-color: #ccf2ff">
+                <table width="100%" style="min-width:100%;">
+                    <tbody>
+                        <tr>
+                            <td style="padding-top:10px; padding-right:18px; padding-bottom:18px; padding-left:18px;" valign="top" align="" class="">
+
+
+                                <br>
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="border-collapse:separate !important; border-radius:5px;background-color:#FFF;">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="middle" class="content" style="font-family:Arial; font-size:16px; padding:15px;">
+                                                <h2><b><center>Start Talent Survey</center></b></h1>
+
+                                                    <form action="#" th:action="@{/admin/launchSurvey}" th:object="${survey}" method="post">
+                                                        <div class="container">
+                                                            <div class="row"><br/>
+                                                                <div class="col-sm-6">
+                                                                    <p>
+                                                                        Survey Start Date: <input type="date" th:field="*{surveyStartDate}" />
+                                                                    </p>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <p>
+                                                                        Survey End Date: <input type="date" th:field="*{surveyEndDate}" />
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row" align="center">
+                                                                <br/>
+                                                                <p>
+                                                                    <button type="submit" class="btn btn-info">Submit</button>
+                                                                    <button type="reset" class="btn btn-info">Reset</button></p>
+
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </form>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
 	
 	<script type="text/javascript"
 		src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
